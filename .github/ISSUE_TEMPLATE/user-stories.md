@@ -7,8 +7,6 @@ assignees: ''
 
 ---
 
-user stories
+User story: 
 
-acceptance criteria
-
-definition of done
+Acceptatiecriteria:
