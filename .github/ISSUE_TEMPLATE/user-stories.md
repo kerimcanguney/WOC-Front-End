@@ -1,7 +1,7 @@
 ---
 name: User stories
 about: voor de userstories
-title: As a <type of user> I want <a goal> so that <benefit>
+title: Als een <type gebruiker> wil ik <een functie/doel> zo dat <waarde>
 labels: ''
 assignees: ''
 
