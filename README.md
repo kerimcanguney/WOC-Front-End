@@ -9,8 +9,9 @@ C:\WOC-FRONT-END\app\    npm install
 ```
 
 
+Om het project te starten
 ```
-C:\WOC-FRONT-END\app\   npm start start
+C:\WOC-FRONT-END\app\   npm start
 ```
 
 
