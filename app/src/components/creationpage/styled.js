@@ -23,14 +23,10 @@ export const Form = styled.form`
     display:grid;
 
     width: 100%;
-    height: 100%;
-     
+    height: 250px;
+    
+    margin-top: 20px;
 
-`
-export const ButtonWrapper = styled.div`
-    align-items: center;
-    justify-content:center;
-    display:flex;
 `
 export const Button = styled.button`
     background-color: #FAFBFC;
@@ -42,7 +38,9 @@ export const Button = styled.button`
     font-size: 14px;
     line-height: 20px;
     padding: 6px 16px;
-    width: 250px;
+    width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
     position: relative;
     transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
     touch-action: manipulation;
@@ -67,11 +65,9 @@ export const FormH1 = styled.h1`
     text-align: center;
     align-self: flex-end;
 `
-
 export const InputWrapper = styled.div`
     justify-content: space-around;
 `
-
 export const Card = styled.div`
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     width: 400px;
@@ -80,8 +76,10 @@ export const Card = styled.div`
     
     font-family: 'Mukta Malar', Arial;
     border-radius: 5%;
-`
 
+    display: grid;
+    justify-content: center;
+`
 export const Input = styled.input`
     display: block;
     line-height: 25px;
@@ -109,7 +107,6 @@ export const Input = styled.input`
 
 
 `
-
 export const TextArea = styled.textarea`
     display: block;
     line-height: 25px;
@@ -135,5 +132,8 @@ export const TextArea = styled.textarea`
         border-color: #275EFE;
     }
 `
-
-
+export const ButtonWrapper = styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+`

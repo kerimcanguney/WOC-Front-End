@@ -1,25 +1,48 @@
-import React from 'react'
-import {Container, Wrapper, Card, Input, Button, FormH1, Form, TextArea, InputWrapper, ButtonWrapper} from './styled'
-const index = () => {
+import React, { useState } from "react";
+import Step1 from './step1';
+import Step2 from './step2';
+import Step3 from './step3';
+
+import {Button, Card, Container, ButtonWrapper, FormH1} from './styled';
+function Index() {
+  const [page, setPage] = useState(0);
+
+  const FormTitles = ["Step1", "Step2", "Step3"];
+  const [formData, setFormData] = useState({
+    company: "Coca Cola",
+    product_name: "",
+    description:"",
+  })
+  const PageDisplay = () => {
+    if (page === 0) {
+      return <Step1 formData={formData} setFormData={setFormData}/>;
+    }
+    else if (page === 1){
+      return <Step2 />;
+    }
+    else{
+      return <Step3 />;
+    }
+  };
+
   return (
     <Container>
       <Card>
-        <Form>
-            <FormH1>Required</FormH1>
-            <InputWrapper>
-              <Input placeholder='Company'/>
-              <Input placeholder='Product name'/>
-              <Input placeholder='Description'/>
-              <Input placeholder='Type'/>
-              <Input placeholder='Category'/>
-            </InputWrapper>
-            <ButtonWrapper>
-              <Button>Confirm</Button>
-            </ButtonWrapper>
-        </Form>
+        <FormH1>{FormTitles[page]}</FormH1>
+        {PageDisplay()}
+        <ButtonWrapper>
+          <Button 
+          disabled={page === 0} 
+          onClick={() => setPage(page - 1)}
+          >Previous</Button>
+          <Button 
+          disabled={page === FormTitles.length - 1}
+          onClick={() => setPage(page + 1)} 
+          >Next</Button>
+        </ButtonWrapper>
       </Card>
     </Container>
-  )
+  );
 }
 
-export default index
+export default Index;
