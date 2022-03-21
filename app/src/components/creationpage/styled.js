@@ -7,7 +7,7 @@ export const Container = styled.div`
     right: 0;
     top: 0;
     z-index: 0;
-    background: rgba(0,0,255,0.1);
+    background: rgba(0,0,255,0.25);
 
     align-items:center;
     display: grid;
@@ -58,6 +58,12 @@ export const Button = styled.button`
 
     margin-bottom: 10px;
     
+    &:disabled{
+        background-color: rgba(27, 31, 35, 0.3);
+        color: rgba(27, 31, 35, 0.3);
+        box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+        transition: none 0s;
+    }
 `
 export const FormH1 = styled.h1`
     font-size: 22px;
