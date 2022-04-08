@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route } from "react-router-dom";
-import Login from "./components/login";
+import LoginForm from "./components/loginForm";
 
 ReactDOM.render(
   <BrowserRouter>
