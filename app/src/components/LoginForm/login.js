@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-
+import {Wrapper,Button, InputWrapper, Card, Input, Header, MailIcon, LockIcon, EyeIcon, Span, Footer} from './loginstyle';
 async function loginUser(credentials){
     console.log(credentials);
-    //https://localhost:44310/Account/Login?email=test%40test.com&password=test
     let email = credentials.email.replace("@","%40");
     let password = credentials.password;
     
@@ -34,23 +33,36 @@ export default function Login({setToken}) {
       }
 
     return(
-        <div className="login-wrapper">
-          <h1>Please Log In</h1>
-          <form onSubmit={handleSubmit}>
-            <label>
-              <p>Email</p>
-              <input type="text" onChange={e => setEmail(e.target.value)}/>
-            </label>
-            <label>
-              <p>Password</p>
-              <input type="password" onChange={e => setPassword(e.target.value)}/>
-            </label>
-            <div>
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-        </div>
+        <>
+        <Wrapper>
+            <Card onSubmit={handleSubmit}>
+                <Header>Welcome, please login</Header>
+                <InputWrapper className='email'>
+                    <label for="email">Email address</label>
+                    <div style={{width: '200px'}}className='sec-2'>
+                        <MailIcon/>
+                        <Input placeholder='username@gmail.com' type='email' onChange={e => setEmail(e.target.value)}/>
+                    </div>
+                </InputWrapper>
+                <InputWrapper  className='password'>
+                    <label for="password">Password</label>
+                    <div style={{width: '200px'}}className='sec-2'>
+                        <LockIcon/>
+                        <Input placeholder='·····' type='password' onChange={e => setPassword(e.target.value)}/>
+                        <EyeIcon/>
+                    </div>
+                </InputWrapper>
+                <Button type='submit'>
+                    Login
+                </Button>
+                <Footer className='footer'>
+                    <Span href='#'>Forgot password?</Span>
+                </Footer>
+            </Card>
+        </Wrapper>
+        </>
     )
+
 }
 
 Login.propTypes = {

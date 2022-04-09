@@ -1,25 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/dashboard';
 import Login from './components/LoginForm/login';
-import Preferences from './components/Prefrences';
 import useToken from './useToken';
-
-// function setToken(userToken) {
-//   sessionStorage.setItem('token', JSON.stringify(userToken));
-// }
-
-// function getToken() {
-//   const tokenString = sessionStorage.getItem('token');
-//   const userToken = JSON.parse(tokenString);
-//   return userToken?.token
-// }
-
-
+import './app.css'
 function App() {
   const {token, setToken}= useToken();
   if (!token){
@@ -30,7 +18,6 @@ function App() {
     <h1>Applicatie</h1>
       <BrowserRouter>
         <Routes>
-        <Route path='/preferences' element={<Preferences/>} />
         <Route path='/dashboard' element={<Dashboard/>} />
         </Routes>
       </BrowserRouter>
