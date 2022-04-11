@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Wrapper,Button, InputWrapper, Card, Input, Header, MailIcon, LockIcon, EyeIcon, Span, Footer} from './loginstyle';
 async function loginUser(credentials){
-    console.log(credentials);
-    let email = credentials.email.replace("@","%40");
-    let password = credentials.password;
     
+    let email = credentials.email;
+    let password = credentials.password;
     let fetchUrl = 'https://localhost:44310/Account/Login?email='+email+"&password="+password;
     
     console.log(fetchUrl);
@@ -16,7 +15,7 @@ async function loginUser(credentials){
             'accept': 'text/plain'
         }
     })
-    .then(data=>data.json())
+    .then(data=>data.json());
 }
 
 export default function Login({setToken}) {
@@ -49,7 +48,7 @@ export default function Login({setToken}) {
                     <div style={{width: '200px'}}className='sec-2'>
                         <LockIcon/>
                         <Input placeholder='·····' type='password' onChange={e => setPassword(e.target.value)}/>
-                        <EyeIcon/>
+                        {/* <EyeIcon/> */}
                     </div>
                 </InputWrapper>
                 <Button type='submit'>

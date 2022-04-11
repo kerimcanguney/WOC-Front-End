@@ -90,7 +90,7 @@ export const Input = styled.input`
         text-align: left;
     }
 
-    margin-left: 1.5px;
+    margin-left: 1em;
 `
 
 export const InputWrapper = styled.div`
