@@ -15,10 +15,9 @@ function App() {
   }
   return (
     <>
-    <h1>Applicatie</h1>
       <BrowserRouter>
         <Routes>
-        <Route path='/dashboard' element={<Dashboard/>} />
+          <Route path='/dashboard' element={<Dashboard/>} />
         </Routes>
       </BrowserRouter>
     </>
