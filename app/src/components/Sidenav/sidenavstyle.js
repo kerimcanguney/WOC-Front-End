@@ -87,6 +87,7 @@ export const Input = styled.input`
     border: 1px solid #CDD9ED;
     background: white;
     transition: border .3s ease;
+    margin:auto;
     &::placeholder {
         color: gray;
     }
