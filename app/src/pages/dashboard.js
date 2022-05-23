@@ -1,43 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import WorkspaceItem from '../components/Workspaces/index'
+import React, {useState} from 'react'
+import WorkspaceItem from '../components/Workspaces';
+import Itemcollection from '../components/Workspaces/itemcollection';
+import Navbar from '../components/Navbar/index'
+import Sidenav from '../components/Sidenav/index'
+import Sidenav2 from '../components/Sidenav/index2'
+import './index.css'
+import styled from 'styled-components';
+import ProductGrid from '../components/ProductGrid/index'
 function Dashboard () {
-  const [requests, setRequests] = useState(null);
-  const arr = [0,1,2];
-
-  useEffect(() => {
-    const url = "https://localhost:44310/Workspace/JoinRequests"
-    fetch(url)
-      .then(res=>{
-        return res.json()
-      })
-      .then(data=>{
-        setRequests(data)
-      })
-  }, []);
-
-
-  return (
-    <div>
-      { requests !== null &&
-        <p>you have <strong>{requests.length}</strong> new request(s)</p>
-      }
-
-      { requests !== null &&
-        requests.map((index) =>{
-          console.log(index)
-          return (
-            <WorkspaceItem key={index}
-              Company={index.workspace.name}
-              Workspace={index.workspace.name}
-              Host={undefined}
-              Time={undefined}
-              Image={undefined}
-            />)
-        })
-      }
-      
+  const [info, setSidebarInfo] = useState(null);
+  return(
+    <div className='Container'>
+      <Navbar/>
+      <Sidenav setSidebarInfo={setSidebarInfo}/>
+      <Sidenav2 setSidebarInfo={setSidebarInfo} info={info}/>
+      <Container info={info}>
+        <ProductGrid />
+      </Container>
     </div>
   )
 }
-
+export const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  background: lightcyan;
+  
+  /* border: 5px solid black; */
+  margin-left: ${props => props.info ? "400px" : "200px"};
+  transition: .2s;
+`
 export default Dashboard

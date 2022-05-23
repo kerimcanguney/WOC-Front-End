@@ -40,7 +40,7 @@ export default function Login({setToken}) {
                     <label for="email">Email address</label>
                     <div style={{width: '200px'}}className='sec-2'>
                         <MailIcon/>
-                        <Input placeholder='username@gmail.com' type='email' onChange={e => setEmail(e.target.value)}/>
+                        <Input placeholder='username@gmail.com' type='text' onChange={e => setEmail(e.target.value)}/>
                     </div>
                 </InputWrapper>
                 <InputWrapper  className='password'>

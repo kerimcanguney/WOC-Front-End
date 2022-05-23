@@ -8,10 +8,10 @@ export const Card = styled.div`
     
     width: 850px;
 
-    background: white;
-    border-radius: 5%;
+    background: ${({bgColor}) => bgColor === false ? 'white' : 'gray'};
+    border-radius: 15px;
 
-    position: absolute;
+    position: relative;
     display: grid;
     grid-template-columns: 150px 650px 50px; 
 `
