@@ -19,7 +19,7 @@ export default class WorkspaceItem extends React.Component {
                 method: 'POST',
                 // headers: { 'Content-Type': 'application/json' },
             };
-            fetch(`https://localhost:44310/Workspace/AcceptJoinRequest?userId=${this.props.accountId}&workspaceId=${this.props.workspaceId}`, requestOptions)
+            fetch(`https://localhost:5001/Workspace/AcceptJoinRequest?userId=${this.props.accountId}&workspaceId=${this.props.workspaceId}`, requestOptions)
                 .then(response => response.json())
                 .then(data => console.log(data));  
         } catch (error) {

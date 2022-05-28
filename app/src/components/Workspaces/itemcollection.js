@@ -16,7 +16,7 @@ function Itemcollection (){
     const [requests, setRequests] = useState(null);
 
   useEffect(() => {
-    const url = "https://localhost:44310/Workspace/JoinRequests"
+    const url = "https://localhost:5001/Workspace/JoinRequests"
     fetch(url)
       .then(res=>{
         return res.json()
