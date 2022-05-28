@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react'
 import { ProductItem } from './productItem'
 
 import './style.css'
-
+function cutId (str){
+  return str.substring(0,4) + "...";
+}
 export default function ProductGrid() {
   const [items, setItems] = useState();
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('https://localhost:44310/Product')
     .then(res=> {
       return res.json();
     })
@@ -38,7 +40,7 @@ export default function ProductGrid() {
         <tbody>
           { items !== undefined &&
             items.map((item) => 
-              <ProductItem id={item.id} title={item.name} progress={100/item.email.length*10+"%"} />
+              <ProductItem id={cutId(item.id)} title={item.name} category={item.category} type={item.type} progress={"20%"} />
             )
           }
         </tbody>
