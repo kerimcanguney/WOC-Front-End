@@ -5,7 +5,7 @@ async function loginUser(credentials){
     
     let email = credentials.email;
     let password = credentials.password;
-    let fetchUrl = 'https://localhost:44310/Account/Login?email='+email+"&password="+password;
+    let fetchUrl = 'https://localhost:5001/Account/Login?email='+email+"&password="+password;
     
     console.log(fetchUrl);
     return fetch(fetchUrl,{

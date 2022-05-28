@@ -8,7 +8,7 @@ function cutId (str){
 export default function ProductGrid() {
   const [items, setItems] = useState();
   useEffect(() => {
-    fetch('https://localhost:44310/Product')
+    fetch('https://localhost:5001/Product')
     .then(res=> {
       return res.json();
     })
