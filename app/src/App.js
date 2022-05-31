@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import Dashboard from './pages/dashboard';
+import ProductEdit from './pages/productEdit.js';
 import Login from './components/LoginForm/login';
 import useToken from './useToken';
 import './app.css'
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path='/dashboard' element={<Dashboard/>} />
           <Route path='/' element={<Home/>} />
+          <Route path="/edit/:productId" element={<ProductEdit />} /> 
         </Routes>
       </BrowserRouter>
     </>
