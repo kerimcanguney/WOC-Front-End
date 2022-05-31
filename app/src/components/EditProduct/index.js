@@ -44,7 +44,7 @@ const removeAttribute = (e) => {
         items.map((item) => 
           item.id === productId ? ( //Show correct hero information
               <div>
-                <h3>Edit {productId}</h3>
+                <h3>Edit {item.name}</h3>
 
                 <div>
                   <form>
@@ -68,13 +68,10 @@ const removeAttribute = (e) => {
                       <h4>Attributes</h4>
                       {item.info.map((info, index) =>
                         <div key={index}>
-                          <button onClick={removeAttribute} name={info.name}>Remove</button>
-                          <input value={info.name} type="text" />
+                          <label>{info.name}</label>
                           <input value={info.value} type="text" />
                         </div>
                       )}
-
-                      <button>Add new attribute</button>
                     </div>
 
                     <input type="submit" value="Save" />
