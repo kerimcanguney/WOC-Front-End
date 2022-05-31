@@ -21,7 +21,7 @@ export class ProductItem extends React.Component {
                 </Container>
                 </td>
                 {/* <td><button>Edit</button></td> */}
-                <td><Link to={`/edit/${this.props.productId}`}><button>Edit</button></Link></td>
+                <td><Link to={`/edit/${this.props.id}`}><button>Edit</button></Link></td>
             </tr>
         )
     }

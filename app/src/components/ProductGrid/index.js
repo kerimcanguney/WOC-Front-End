@@ -40,7 +40,7 @@ export default function ProductGrid() {
         <tbody>
           { items !== undefined &&
             items.map((item) => 
-              <ProductItem id={cutId(item.id)} title={item.name} category={item.category} type={item.type} progress={"20%"} />
+              <ProductItem id={cutId(item.id)} productId={item.id} title={item.name} category={item.category} type={item.type} progress={"20%"} />
             )
           }
         </tbody>
