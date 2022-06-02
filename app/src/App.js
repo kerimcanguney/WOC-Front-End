@@ -10,6 +10,8 @@ import Login from './components/LoginForm/login';
 import useToken from './useToken';
 import './app.css'
 import Home from './pages/home' 
+import Categories from './components/Category/categories'
+import Category from './components/Category/category'
 function App() {
   const {token, setToken}= useToken();
   if (!token){
@@ -20,8 +22,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/dashboard' element={<Dashboard/>} />
-          <Route path='/' element={<Home/>} />
+          <Route path='/' element={<Dashboard/>} />
           <Route path="/edit/:productId" element={<ProductEdit />} /> 
+          <Route path="/categories" element={<Categories />} /> 
+          <Route path="/category/:id" element={<Category />} /> 
         </Routes>
       </BrowserRouter>
     </>

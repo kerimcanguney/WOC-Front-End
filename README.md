@@ -1,4 +1,23 @@
-# WOC-PIM
+# WOC-frontend
+
+front-end van onze applicatie
+
+Standaard accounts om in te loggen:
+
+email1, pw1 (standaard rol)
+
+email3, pw3 (ook standaard rol)
+
+admin, admin (admin account)
+
+## Om de back-end te runnen:
+Zorg ervoor dat de api en sql/nosql databases ook als containers runnen.
+Instructies hiervoor zijn te vinden op:
+https://github.com/kerimcanguney/WOC-Back-End#readme
+
+Als de database en api containers draaien, start dan de front-end op met:
+
+docker run -d --rm -v /app/node_modules -p 3000:3000 -e CHOKIDAR_USEPOLLING=true --name woc-website kerimcan/woc-website
 
 ## Docker
 Zorg ervoor dat de api en sql/nosql databases ook als containers runnen.
