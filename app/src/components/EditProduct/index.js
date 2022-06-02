@@ -19,7 +19,8 @@ export default function EditProduct() {
       console.log(items)
     })
   }, []);
-
+  const [formInfo, SetFormInfo] = useState("empty");
+  console.log(formInfo)
   return (
     <div>
       { items !== undefined &&
@@ -48,12 +49,14 @@ export default function EditProduct() {
                     <div>
                       <br />
                       <h4>Attributes</h4>
-                      {item.info.map((info, index) =>
-                        <div key={index}>
-                          <label>{info.name}</label>
-                          <input value={info.value} type="text" />
-                        </div>
-                      )}
+                      <div onChange={(e)=> e.target.SetFormInfo("a") }>
+                        {item.info.map((info, index) =>
+                          <div key={index}>
+                            <label>{info.name}</label>
+                            <input value={info.value} type="text" />
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <input type="submit" value="Save" />
@@ -90,8 +93,6 @@ function updateProduct(id){
       }
     ]
   }
-  var apiurl = 'https://localhost:5001/Product?id=602d2149e773f2a3990b47f6'
-  // 
   fetch(`https://localhost:5001/Product?id=${id}`,{
     method: 'PUT',
     headers: {
