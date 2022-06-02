@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHref } from 'react-router-dom'
 import logo from '../../images/blueLogo.png'
 import {
     Nav, NavbarContainer, NavLogo, UserLogoWrapper,SearchWrapper,SearchBox,UserLogo, SearchIcon, IconWrapper
@@ -7,7 +8,7 @@ const index = () => {
   return (
     <Nav>
         <NavbarContainer>
-            <NavLogo src={logo}/>
+            <NavLogo src={logo} />
 
             <SearchWrapper>
                 <SearchBox placeholder='search' type="text"></SearchBox>
@@ -15,11 +16,14 @@ const index = () => {
             </SearchWrapper>
 
             <UserLogoWrapper>
-                <UserLogo>USER</UserLogo>
+                <UserLogo onClick={() => logOut()}>USER</UserLogo>
             </UserLogoWrapper>
         </NavbarContainer>
     </Nav>
   )
 }
-
+function logOut(){
+    localStorage.removeItem('WOCTOKEN')
+    window.location.href= "/"
+}
 export default index
