@@ -3,27 +3,9 @@ import { ProductItem } from './productItem'
 import { useParams } from 'react-router-dom'
 
 import './style.css'
-function cutId (str){
-  return str.substring(0,4) + "...";
-}
+// react hook dynamisch generaten in map
+// [title,2,3,4]
 export default function EditProduct() {
-/*function removeAttribute(e, id) {
-  e.preventDefault();
-
-  document.getElementById(id).remove();
-}*/
-
-const removeAttribute = (e) => {
-  console.log(items);
-  e.preventDefault();
-  const name = e.target.getAttribute("name");
-  console.log("name" + name);
-  setItems(items.filter(item => item.info.name !== name));
-  console.log(items);
-
-
-};
-
   const { productId } = useParams();
 
   const [items, setItems] = useState();
@@ -37,7 +19,8 @@ const removeAttribute = (e) => {
       console.log(items)
     })
   }, []);
-
+  const [formInfo, SetFormInfo] = useState("empty");
+  console.log(formInfo)
   return (
     <div>
       { items !== undefined &&
@@ -66,12 +49,14 @@ const removeAttribute = (e) => {
                     <div>
                       <br />
                       <h4>Attributes</h4>
-                      {item.info.map((info, index) =>
-                        <div key={index}>
-                          <label>{info.name}</label>
-                          <input value={info.value} type="text" />
-                        </div>
-                      )}
+                      <div onChange={(e)=> e.target.SetFormInfo("a") }>
+                        {item.info.map((info, index) =>
+                          <div key={index}>
+                            <label>{info.name}</label>
+                            <input value={info.value} type="text" />
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <input type="submit" value="Save" />
@@ -85,4 +70,35 @@ const removeAttribute = (e) => {
       }
     </div>
   );
+}
+
+function updateProduct(id){
+  var jsonobj = {
+  "id": "602d2149e773f2a3990b47f5",
+  "name": "Banaan",
+  "category": "Food",
+  "type": "Fruit",
+  "info": [
+      {
+        "name": "Calorieen",
+        "value": "10kcal"
+      },
+      {
+        "name": "Gewicht",
+        "value": "100g"
+      },
+      {
+        "name": "Fresg",
+        "value": "ja"
+      }
+    ]
+  }
+  fetch(`https://localhost:5001/Product?id=${id}`,{
+    method: 'PUT',
+    headers: {
+      "Content-Type" : "application/json"
+    },
+    body: JSON.stringify(jsonobj)
+  })
+
 }
