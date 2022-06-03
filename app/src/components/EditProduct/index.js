@@ -8,92 +8,103 @@ import './style.css'
 export default function EditProduct() {
   const { productId } = useParams();
 
-  const [items, setItems] = useState();
+  const [item, setItems] = useState();
   useEffect(() => {
-    fetch('https://localhost:5001/Product')
+    fetch(`https://localhost:5001/getbyid?id=${productId}`)
     .then(res=> {
       return res.json();
     })
     .then(data=>{
       setItems(data);
-      console.log(items)
     })
   }, []);
-  const [formInfo, SetFormInfo] = useState("empty");
-  console.log(formInfo)
-  return (
-    <div>
-      { items !== undefined &&
-        items.map((item) => 
-          item.id === productId ? ( //Show correct hero information
-              <div>
-                <h3>Edit {item.name}</h3>
-
+  if (item !== undefined){
+    return (
+      <div>
                 <div>
-                  <form>
-                    <div>
-                      <label>Name</label>
-                      <br />
-                      <input value={item.name} type="text" />
-                    </div>
-                    <div>
-                      <label>Category</label>
-                      <br />
-                      <input value={item.category} type="text" />
-                    </div>
-                    <div>
-                      <label>Type</label>
-                      <br />
-                      <input value={item.type} type="text" />
-                    </div>
-                    <div>
-                      <br />
-                      <h4>Attributes</h4>
-                      <div onChange={(e)=> e.target.SetFormInfo("a") }>
-                        {item.info.map((info, index) =>
-                          <div key={index}>
-                            <label>{info.name}</label>
-                            <input value={info.value} type="text" />
-                          </div>
-                        )}
+                  <h3>Edit {item.name}</h3>
+                  <div>
+                    <form id='main'>
+                      <div>
+                        <label>Name</label>
+                        <br />
+                        <input defaultValue={item.name} type="text" />
                       </div>
-                    </div>
-
-                    <input type="submit" value="Save" />
-                  </form>
+                      <div>
+                        <label>Category</label>
+                        <br />
+                        <input defaultValue={item.category} type="text" />
+                      </div>
+                      <div>
+                        <label>Type</label>
+                        <br />
+                        <input defaultValue={item.type} type="text" />
+                      </div>
+                      <div>
+                        <br />
+                        <h4>Attributes</h4>
+                        <div id='attributes'>
+                          {item.info.map((info, index) =>
+                            <div key={index}>
+                              <label>{info.name}</label>
+                              <input defaultValue={info.value} type="text" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+  
+                      <input type="submit" onClick={(e)=>  updateProduct(e,getNodesMain(e),getNodes(e), item)} value="Save" />
+                      <button onClick={(e)=>  getNodesMain()}>a</button>
+                    </form>
+                  </div>
                 </div>
-              </div>
-          ) : (
-              null
-          )
-        )
-      }
-    </div>
-  );
+      </div>
+    );
+  }
+  else return null;
 }
 
-function updateProduct(id){
-  var jsonobj = {
-  "id": "602d2149e773f2a3990b47f5",
-  "name": "Banaan",
-  "category": "Food",
-  "type": "Fruit",
-  "info": [
-      {
-        "name": "Calorieen",
-        "value": "10kcal"
-      },
-      {
-        "name": "Gewicht",
-        "value": "100g"
-      },
-      {
-        "name": "Fresg",
-        "value": "ja"
-      }
-    ]
+function getNodes(e,item){
+  e.preventDefault();
+  var item = document.getElementById('attributes').childNodes
+  var arr = []
+  item.forEach(x => {
+    arr.push(x.childNodes[1].value)
+  });
+  return arr;
+}
+
+function getNodesMain(e){
+  e.preventDefault();
+  var item = document.getElementById('main').childNodes
+  var arr = []
+  for (let index = 0; index < item.length; index++) {
+    var curitem = item[index].childNodes[2]
+    if (curitem){
+      if (curitem.value !== undefined)
+        arr.push(curitem.value);    
+    }
   }
-  fetch(`https://localhost:5001/Product?id=${id}`,{
+  return arr;
+}
+
+function updateProduct(e,main,arr,jsonobj){
+  
+  e.preventDefault();
+
+  jsonobj.name = main[0]
+  jsonobj.category = main[1]
+  jsonobj.type = main[2]
+  
+
+  for (let index = 0; index < jsonobj.info.length; index++) {
+    jsonobj.info[index].value = arr[index];
+  }
+
+  console.log(jsonobj)
+
+
+  fetch(`https://localhost:5001/Product?id=${jsonobj.id}`,{
     method: 'PUT',
     headers: {
       "Content-Type" : "application/json"

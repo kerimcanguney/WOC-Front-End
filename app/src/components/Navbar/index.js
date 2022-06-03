@@ -7,7 +7,7 @@ import {
 function Index () {
     const [username, Setusername] = useState("...")
     useEffect(() => {
-      fetch(`https://localhost:50958/Account/Info?token=${JSON.parse(localStorage.getItem("WOCTOKEN")).token}`)
+      fetch(`https://localhost:5001/Account/Info?token=${JSON.parse(localStorage.getItem("WOCTOKEN")).token}`)
         .then(res=> {
             return res.json();
         })
