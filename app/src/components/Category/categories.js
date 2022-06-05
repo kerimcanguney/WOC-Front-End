@@ -2,27 +2,51 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components'
-import './style.css'
+import './categorystyle.css'
 
 const Categories = () => {
     const [categories, setCategories] = useState([])  
+    const [currentcategory, setcurrentcategory] = useState([]) 
 
     useEffect(() => {
     fetch(("https://localhost:5001/categories/"),{
     })
         .then((data) => data.json())
         .then((data) => setCategories(data))
+        .then((data) => setcurrentcategory(categories[0]))
     }, [])
     console.log(categories)
 
+    /////////////////////////////
+    //Category dropdowns with select
+    const SelectCategory = (e) => {
+        e.preventDefault();
+        var categorydropdown = document.getElementsByName('selectCategories')[0]
+    
+        console.log(categorydropdown.value);
+        for (let index = 0; index < categories.length; index++) {
+            if (categories[index].name == categorydropdown.value) {
+                setcurrentcategory(categories[index])
+            }
+        }
+    }
+    const SelectType = (e) => {
+        e.preventDefault();
+        var typesdropdown = document.getElementsByName('selectTypes')[0]
+    
+        console.log(typesdropdown.value);
+    }
+    ////////////////////////////// 
+
     return(
-        <div
-      style={{ 
-          width: "900px", 
-          display: "flex", 
-          justifySelf: "center",
-          marginLeft: '15%',
-      }}>
+        <div>
+            <div
+        style={{ 
+            width: "900px", 
+            display: "flex", 
+            justifySelf: "center",
+            marginLeft: '15%',
+        }}>
             <table>
                 <tr>
                     <th>id</th>
@@ -39,6 +63,31 @@ const Categories = () => {
                 </tr>
                 ))}
             </table>
+            </div>
+            {//////////////////////////
+            //Category dropdowns with select
+            }
+                <div>
+                    <select name="selectCategories" onChange={ e => SelectCategory(e)}>
+                        {categories.map((category) => (
+                        <option value={category.name}>{category.name}</option>
+                        ))}
+                    </select>
+                    {
+                    (currentcategory.types !== undefined) ?
+                        
+                    <select name="selectTypes" onChange={ e => SelectType(e)}>
+                        {currentcategory.types.map((type, index) => 
+                        <option value={type.name}>{type.name}</option>
+                        )}
+                    </select>
+                    : <div>
+                        <h3>no types found</h3>
+                        </div>
+                    }
+                </div>
+            {//////////////////////////
+            }
         </div>
     )
 }

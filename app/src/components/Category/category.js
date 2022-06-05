@@ -27,7 +27,52 @@ const AddType = (e,categoryid,type) => {
             'accept': 'text/plain'
         }
     });
-    console.log("test");
+    console.log("test add type");
+    window.location.reload(true);
+}
+const RemoveType = (e,categoryid,type) => {
+    e.preventDefault();
+    console.log(type);
+    let fetchUrl = 'https://localhost:5001/removetypefromcategory?categoryid='+categoryid+'&type='+type;
+    console.log(fetchUrl);
+    fetch(fetchUrl,{
+        method: 'POST',
+        credentials: 'include',
+        headers:{   
+            'accept': 'text/plain'
+        }
+    });
+    console.log("test removetype");
+    window.location.reload(true);
+}
+const AddInfoToType = (e,categoryid,type,info) => {
+    e.preventDefault();
+    console.log(info,type);
+    let fetchUrl = 'https://localhost:5001/addinfototypeincategory?categoryid='+categoryid+'&type='+type+'&name='+info;
+    console.log(fetchUrl);
+    fetch(fetchUrl,{
+        method: 'POST',
+        credentials: 'include',
+        headers:{   
+            'accept': 'text/plain'
+        }
+    });
+    console.log("test add info to type");
+    window.location.reload(true);
+}
+const RemoveInfoFromType = (e,categoryid,type,info) => {
+    e.preventDefault();
+    console.log(info,type);
+    let fetchUrl = 'https://localhost:5001/removeinfofromtypeincategory?categoryid='+categoryid+'&type='+type+'&name='+info;
+    console.log(fetchUrl);
+    fetch(fetchUrl,{
+        method: 'POST',
+        credentials: 'include',
+        headers:{   
+            'accept': 'text/plain'
+        }
+    });
+    console.log("test remove info from type");
     window.location.reload(true);
 }
 
@@ -51,38 +96,51 @@ export default function Category(){
                   <form>
                     <div>
                       <label>Name: </label>
-                      <input value={category.name} type="text" />
+                      <input defaultValue={category.name} type="text" />
                     </div>
                     <div>
                       <br />
                       <h4>Types</h4>
+                      <div>
+                            <label>New attribute name: </label>
+                            <input name="newattributename" type="text" id="newattributename"/>
+                            <br />
+                            <br />
+                        </div>
                       {(category.types !== undefined) ?
                       category.types.map((type, index) =>
                         <div key={index}>
+                            <input type="submit" value="Remove Type" onClick={ e => RemoveType(e,category.id,type.name)}/>
                             <label>Name: </label>
-                            <input value={type.name} type="text" />
+                            <input defaultValue={type.name} type="text" id="currenttype" key={index}/>
                             {(type.info !== null) ?
                             type.info.map((info, idx) =>
                                 <div key={idx}>
+                                <input type="submit" value="Remove Attribute" onClick={ e => RemoveInfoFromType(e,category.id,type.name,info.name)}/>
                                 <label>Attribute {idx}: </label>
-                                <input value={info.name} type="text" />
+                                <input defaultValue={info.name} type="text" />
                             </div>
                             ):
                             <div>
                                 no attributes found
                             </div>
                             }
+                            <input type="submit" value="Add New Attribute" onClick={ e => AddInfoToType(e,category.id,type.name,document.getElementById("newattributename").value)}/>
+                            <br />
+                            <br />
                         </div>
                       )
                       : <div>
                         <h3>no types found</h3>
                       </div>
                         }
+                    <br />
+                    <br />
                       <input name="newtypename" type="text" id="newtypename"/>
                       <input type="submit" value="New Type" onClick={ e => AddType(e,category.id,document.getElementById("newtypename").value)}/>
                     </div>
                     
-                    
+                    <br />
                     <input type="submit" value="Save" onClick={ e => UpdateCategory(e,category)}/>
                   </form>
                 </div>
