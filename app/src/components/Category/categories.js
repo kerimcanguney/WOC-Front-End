@@ -13,10 +13,12 @@ const Categories = () => {
     })
         .then((data) => data.json())
         .then((data) => setCategories(data))
-        .then((data) => setcurrentcategory(categories[0]))
     }, [])
     console.log(categories)
-
+    useEffect(() => {
+        setcurrentcategory(categories[0])
+    })
+    console.log(currentcategory)
     /////////////////////////////
     //Category dropdowns with select
     const SelectCategory = (e) => {
@@ -74,8 +76,7 @@ const Categories = () => {
                         ))}
                     </select>
                     {
-                    (currentcategory.types !== undefined) ?
-                        
+                    (currentcategory !== undefined && currentcategory.types !== undefined) ?
                     <select name="selectTypes" onChange={ e => SelectType(e)}>
                         {currentcategory.types.map((type, index) => 
                         <option value={type.name}>{type.name}</option>
@@ -86,8 +87,8 @@ const Categories = () => {
                         </div>
                     }
                 </div>
-            {//////////////////////////
-            }
+                {//////////////////////////
+                }
         </div>
     )
 }
