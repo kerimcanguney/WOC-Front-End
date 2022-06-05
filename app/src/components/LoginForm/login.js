@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Wrapper,Button, InputWrapper, Card, Input, Header, MailIcon, LockIcon, EyeIcon, Span, Footer} from './loginstyle';
+import {Wrapper,Button, InputWrapper, Card, Input, Header, MailIcon, LockIcon, Span, Footer} from './loginstyle';
 async function loginUser(credentials){
     
     let email = credentials.email;
@@ -29,6 +29,7 @@ export default function Login({setToken}) {
           password
         });
         setToken(token);
+        console.log(token)
       }
 
     return(
@@ -47,8 +48,7 @@ export default function Login({setToken}) {
                     <label for="password">Password</label>
                     <div style={{width: '200px'}}className='sec-2'>
                         <LockIcon/>
-                        <Input placeholder='·····' type='password' onChange={e => setPassword(e.target.value)}/>
-                        {/* <EyeIcon/> */}
+                        <Input placeholder='··········' type='password' onChange={e => setPassword(e.target.value)}/>
                     </div>
                 </InputWrapper>
                 <Button type='submit'>

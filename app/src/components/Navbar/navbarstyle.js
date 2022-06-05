@@ -88,4 +88,19 @@ export const NavLogo = styled.img`
 
     -webkit-filter: invert(1);
     filter: invert(1);
+`;
+export const WelkomText = styled.p`
+
+`
+
+export const LogOutLink = styled.p`
+    cursor: pointer;
+    margin-left: 1em;
+    &:active{
+        color:black;
+    }
+
+    &:hover{
+        color: white;
+    }
 `

@@ -10,11 +10,11 @@ const index = ({setSidebarInfo}) => {
     <Container>
         <ItemSlot>
             <HomeIcon/>
-            <Item href='#home' onClick={() => setSidebarInfo('')}>Home</Item>
+            <Item href='/' onClick={() => setSidebarInfo('')}>Home</Item>
         </ItemSlot>
         <ItemSlot>
             <WorkspaceIcon/>
-            <Item href='#workspace' onClick={() => setSidebarInfo('Workspace')}>Workspace</Item>
+            <Item href='#workspaces' onClick={() => setSidebarInfo('Workspace')}>Workspace</Item>
         </ItemSlot>
         <ItemSlot last={true}>
             <MailIcon/>

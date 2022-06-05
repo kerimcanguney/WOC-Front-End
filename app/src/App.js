@@ -12,17 +12,19 @@ import './app.css'
 import Home from './pages/home' 
 import Categories from './components/Category/categories'
 import Category from './components/Category/category'
+
 function App() {
   const {token, setToken}= useToken();
   if (!token){
     return <Login setToken={setToken}/>
   }
+  
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/dashboard' element={<Dashboard/>} />
-          <Route path='/' element={<Dashboard/>} />
+          <Route path='/dashboard' element={<Dashboard/>} token={token} />
+          <Route path='/' element={<Dashboard/>} token={token}/>
           <Route path="/edit/:productId" element={<ProductEdit />} /> 
           <Route path="/categories" element={<Categories />} /> 
           <Route path="/category/:id" element={<Category />} /> 
@@ -31,5 +33,7 @@ function App() {
     </>
   );
 }
+
+
 
 export default App;

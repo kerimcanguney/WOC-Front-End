@@ -1,13 +1,25 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
+import { useHref } from 'react-router-dom'
 import logo from '../../images/blueLogo.png'
 import {
-    Nav, NavbarContainer, NavLogo, UserLogoWrapper,SearchWrapper,SearchBox,UserLogo, SearchIcon, IconWrapper
+    Nav, NavbarContainer, NavLogo, UserLogoWrapper,SearchWrapper,SearchBox,UserLogo, SearchIcon, IconWrapper, WelkomText,LogOutLink
 } from './navbarstyle'
-const index = () => {
+function Index () {
+    const [username, Setusername] = useState("...")
+    useEffect(() => {
+      fetch(`https://localhost:50958/Account/Info?token=${JSON.parse(localStorage.getItem("WOCTOKEN")).token}`)
+        .then(res=> {
+            return res.json();
+        })
+        .then(data =>{
+            Setusername(data.name)
+        })
+    }, [])
+    
   return (
     <Nav>
         <NavbarContainer>
-            <NavLogo src={logo}/>
+            <NavLogo src={logo} />
 
             <SearchWrapper>
                 <SearchBox placeholder='search' type="text"></SearchBox>
@@ -15,11 +27,18 @@ const index = () => {
             </SearchWrapper>
 
             <UserLogoWrapper>
-                <UserLogo>USER</UserLogo>
+                <WelkomText>welkom {username}</WelkomText>
+                <LogOutLink onClick={() => logOut()}>logout</LogOutLink>
+                
             </UserLogoWrapper>
         </NavbarContainer>
     </Nav>
   )
 }
+function logOut(){
+    localStorage.removeItem('WOCTOKEN')
+    window.location.href= "/"
+}
 
-export default index
+
+export default Index
