@@ -1,6 +1,10 @@
 import React from 'react'
 import { Container, HomeIcon, Item, ItemSlot, MailIcon, WorkspaceIcon } from './sidenavstyle'
 
+function Categories(){
+  window.location.href = "/categories"
+}
+
 const index = ({setSidebarInfo}) => {
   return (
     <Container>
@@ -15,6 +19,10 @@ const index = ({setSidebarInfo}) => {
         <ItemSlot last={true}>
             <MailIcon/>
             <Item href='#inbox' onClick={() => setSidebarInfo('')}>Inbox</Item>
+        </ItemSlot>
+        <ItemSlot last={true}>
+            <MailIcon/>
+            <Item href='/categories' onClick={() => Categories()}>Categories</Item>
         </ItemSlot>
     </Container>
   )
