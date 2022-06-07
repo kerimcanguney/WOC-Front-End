@@ -3,18 +3,59 @@ import { useParams } from 'react-router-dom';
 
 const UpdateCategory = (e,category) => {
     e.preventDefault();
-    /*
-    let fetchUrl = 'https://localhost:5001/Novel/;
-    console.log(fetchUrl);
-    fetch(fetchUrl,{
-        method: 'POST',
-        credentials: 'include',
-        headers:{   
-            'accept': 'text/plain'
+    
+    var id = category.id
+    var name = category.name
+    var jsonobj = {
+        "id": id,
+        "name": name,
+        "types": [
+          
+        ]
+    }
+
+    // console.log(jsonobj)
+    var typefield = document.getElementsByName('types')
+    typefield.forEach(field => {
+        var typejsonobj = {
+            name: "",
+            info: []
         }
-    });*/
-    console.log("test");
-    window.location.reload(true);
+        field.childNodes.forEach(child =>{
+            
+            if (child.id == "currenttype") 
+            {
+                typejsonobj.name = child.value
+            }
+            
+            if (child.childNodes.length > 1){
+                var div = child.childNodes
+                console.log(div[2].value)
+                typejsonobj.info.push(
+                    {
+                        name: div[2].value,
+                        value: ""
+                    }
+                )
+            }
+            
+        })
+        jsonobj.types.push(typejsonobj)
+
+    });
+    console.log(jsonobj)
+    console.log('finished')
+
+    let fetchUrl = `https://localhost:5001/updateCategory?id=${id}`;
+
+    fetch(fetchUrl,{
+        method: 'PUT',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonobj)
+    })
+    // window.location.reload(true);
 }
 const AddType = (e,categoryid,type) => {
     e.preventDefault();
@@ -86,7 +127,6 @@ export default function Category(){
          .then((response) => response.json())
          .then(response=>setCategory(response))
     }, [id]);
-    console.log(category)
     useEffect(() => {
         setChangedCategory(category)
     })
@@ -111,10 +151,10 @@ export default function Category(){
 
         changes.types[index].name = attributenameinput.value;
         setChangedCategory(changes);
-        console.log(changedcategory)
-        console.log(index)
-        console.log(attributenameinput.value)
-        console.log(changes.types[index].name)
+        // console.log(changedcategory)
+        // console.log(index)
+        // console.log(attributenameinput.value)
+        // console.log(changes.types[index].name)
     }
     return(
         <div>
@@ -137,7 +177,7 @@ export default function Category(){
                         </div>
                       {(category.types !== undefined) ?
                       category.types.map((type, index) =>
-                        <div key={index} name="types" style={{border:'1px solid black', marginTop:'8px'}}>
+                        <div id="type-field" key={index} name="types" style={{border:'1px solid black', marginTop:'8px'}}>
                             <input type="submit" value="Remove Type" onClick={ e => RemoveType(e,category.id,type.name)}/>
                             <label>Name: </label>
                             <input defaultValue={type.name} type="text" onChange={ e => onChangeAttributeName(e,index)} id="currenttype" key={index}/>
