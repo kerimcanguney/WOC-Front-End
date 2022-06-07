@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled from 'styled-components'
-import './categorystyle.css'
 
 const Categories = () => {
     const [categories, setCategories] = useState([])  
@@ -49,7 +47,7 @@ const Categories = () => {
             justifySelf: "center",
             marginLeft: '15%',
         }}>
-            <table>
+            <table id='category-table'>
                 <tr>
                     <th>id</th>
                     <th>Name</th>

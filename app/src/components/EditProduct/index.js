@@ -10,6 +10,7 @@ export default function EditProduct() {
   const [categorys, setCategorys] = useState();
   const [types, setTypes] = useState();
   const [item, setItems] = useState();
+  const [currentCat, setCurrentCat] = useState();
   useEffect(() => {
     fetch(`https://localhost:5001/getbyid?id=${productId}`)
     .then(res=> {
@@ -17,27 +18,32 @@ export default function EditProduct() {
     })
     .then(data=>{
       setItems(data);
+      // UpdateTypeField(setTypes,data.category)
     })
-
+    
     fetch("https://localhost:5001/categories")
     .then(res =>{
       return res.json();
     })
     .then(data=>{
       var catarr = [];
-      var typearr = [];
+      console.log(data)
+      console.log(item)
+
       data.forEach(category => {
-        catarr.push(category.name)
-        category.types.forEach(type =>{
-          typearr.push(type.name)
-        })
+        catarr.push(category)
+        if(category.name == item.category){
+          setCurrentCat(category[0])
+          console.log(currentCat)
+        }
+        
       });
-      setTypes(typearr)
       setCategorys(catarr)
     })
+    
+    
   }, []);
-
-  
+  // console.log(item)
   if (item !== undefined){
     return (
       <div>
@@ -53,11 +59,10 @@ export default function EditProduct() {
               <div>
                 <label>Category</label>
                 <br />
-                <input defaultValue={item.category} type="text" />
-                <select>
+                <select id='category-field' defaultValue={currentCat} onChange={(e) => UpdateTypeField(setTypes,e.target.value)}  >
                   { categorys !== undefined &&
                     categorys.map((item) => 
-                      <option key={item}>{item}</option>
+                      <option value={item.id} key={item.id}>{item.name}</option>
                     )
                   }
                 </select>
@@ -65,7 +70,13 @@ export default function EditProduct() {
               <div>
                 <label>Type</label>
                 <br />
-                <input defaultValue={item.type} type="text" />
+                <select DefaultValue={item.type} onChange={(e) => updateTypeOfProduct(item, e.target.value)}>
+                  { types !== undefined &&
+                      types.map((opt) =>
+                        <option value={opt.name} key={opt.id}>{opt.name}</option>
+                      )
+                  }
+                </select>
               </div>
               <div>
                 <br />
@@ -81,7 +92,6 @@ export default function EditProduct() {
               </div>
 
               <input type="submit" onClick={(e)=>  updateProduct(e,getNodesMain(e),getNodes(e), item)} value="Save" />
-              <button onClick={(e)=>  getNodesMain()}>a</button>
             </form>
           </div>
         </div>
@@ -139,4 +149,42 @@ function updateProduct(e,main,arr,jsonobj){
     body: JSON.stringify(jsonobj)
   })
 
+}
+
+function UpdateTypeField(setTypes,e){
+   fetch(`https://localhost:5001/getcategorybyid?id=${e}`)
+    .then((res) =>{
+      return res.json()
+    })
+    .then((data) =>{
+      var total = []
+      data.types.forEach(element => {
+        total.push(element)
+      });
+      setTypes(total)
+    })
+}
+
+function updateTypeOfProduct(product, type){
+  var e = document.getElementById('category-field')
+  var categoryid = e.value
+  if (product.type == type) {
+    return null;
+  }
+
+  fetch(`https://localhost:5001/updateCategoryOfProduct?productid=${product.id}&categoryid=${categoryid}`,{
+    method: 'PUT'
+  })
+  .then((res) =>{
+    console.log("Changed category")
+  })
+  
+    
+  fetch(`https://localhost:5001/updateTypeOfProduct?productid=${[product.id]}&categoryid=${[categoryid]}&type=${[type]}`,{
+    method: 'PUT'
+  })
+  .then((res) =>{
+    console.log("Changed type")
+    // window.location.reload()
+  })
 }

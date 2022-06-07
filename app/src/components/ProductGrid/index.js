@@ -14,7 +14,6 @@ export default function ProductGrid() {
     })
     .then(data=>{
       setItems(data);
-      console.log(items)
     })
   }, []);
 

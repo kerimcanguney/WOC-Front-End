@@ -16,7 +16,7 @@ const index = ({setSidebarInfo}) => {
             <WorkspaceIcon/>
             <Item href='#workspaces' onClick={() => setSidebarInfo('Workspace')}>Workspace</Item>
         </ItemSlot>
-        <ItemSlot last={true}>
+        <ItemSlot >
             <MailIcon/>
             <Item href='#inbox' onClick={() => setSidebarInfo('')}>Inbox</Item>
         </ItemSlot>
