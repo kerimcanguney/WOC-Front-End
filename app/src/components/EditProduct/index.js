@@ -7,7 +7,8 @@ import './style.css'
 // [title,2,3,4]
 export default function EditProduct() {
   const { productId } = useParams();
-
+  const [categorys, setCategorys] = useState();
+  const [types, setTypes] = useState();
   const [item, setItems] = useState();
   useEffect(() => {
     fetch(`https://localhost:5001/getbyid?id=${productId}`)
@@ -17,47 +18,73 @@ export default function EditProduct() {
     .then(data=>{
       setItems(data);
     })
+
+    fetch("https://localhost:5001/categories")
+    .then(res =>{
+      return res.json();
+    })
+    .then(data=>{
+      var catarr = [];
+      var typearr = [];
+      data.forEach(category => {
+        catarr.push(category.name)
+        category.types.forEach(type =>{
+          typearr.push(type.name)
+        })
+      });
+      setTypes(typearr)
+      setCategorys(catarr)
+    })
   }, []);
+
+  
   if (item !== undefined){
     return (
       <div>
-                <div>
-                  <h3>Edit {item.name}</h3>
-                  <div>
-                    <form id='main'>
-                      <div>
-                        <label>Name</label>
-                        <br />
-                        <input defaultValue={item.name} type="text" />
-                      </div>
-                      <div>
-                        <label>Category</label>
-                        <br />
-                        <input defaultValue={item.category} type="text" />
-                      </div>
-                      <div>
-                        <label>Type</label>
-                        <br />
-                        <input defaultValue={item.type} type="text" />
-                      </div>
-                      <div>
-                        <br />
-                        <h4>Attributes</h4>
-                        <div id='attributes'>
-                          {item.info.map((info, index) =>
-                            <div key={index}>
-                              <label>{info.name}</label>
-                              <input defaultValue={info.value} type="text" />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-  
-                      <input type="submit" onClick={(e)=>  updateProduct(e,getNodesMain(e),getNodes(e), item)} value="Save" />
-                      <button onClick={(e)=>  getNodesMain()}>a</button>
-                    </form>
-                  </div>
+        <div>
+          <h3>Edit {item.name}</h3>
+          <div>
+            <form id='main'>
+              <div>
+                <label>Name</label>
+                <br />
+                <input defaultValue={item.name} type="text" />
+              </div>
+              <div>
+                <label>Category</label>
+                <br />
+                <input defaultValue={item.category} type="text" />
+                <select>
+                  { categorys !== undefined &&
+                    categorys.map((item) => 
+                      <option key={item}>{item}</option>
+                    )
+                  }
+                </select>
+              </div>
+              <div>
+                <label>Type</label>
+                <br />
+                <input defaultValue={item.type} type="text" />
+              </div>
+              <div>
+                <br />
+                <h4>Attributes</h4>
+                <div id='attributes'>
+                  {item.info.map((info, index) =>
+                    <div key={index}>
+                      <label>{info.name}</label>
+                      <input defaultValue={info.value} type="text" />
+                    </div>
+                  )}
                 </div>
+              </div>
+
+              <input type="submit" onClick={(e)=>  updateProduct(e,getNodesMain(e),getNodes(e), item)} value="Save" />
+              <button onClick={(e)=>  getNodesMain()}>a</button>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
