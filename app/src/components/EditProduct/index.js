@@ -7,10 +7,8 @@ import './style.css'
 // [title,2,3,4]
 export default function EditProduct() {
   const { productId } = useParams();
-  const [categorys, setCategorys] = useState();
-  const [types, setTypes] = useState();
+  const [categories, setCategories] = useState([])  
   const [item, setItems] = useState();
-  const [currentCat, setCurrentCat] = useState();
   useEffect(() => {
     fetch(`https://localhost:5001/getbyid?id=${productId}`)
     .then(res=> {
@@ -20,31 +18,58 @@ export default function EditProduct() {
       setItems(data);
       // UpdateTypeField(setTypes,data.category)
     })
-    
-    fetch("https://localhost:5001/categories")
-    .then(res =>{
-      return res.json();
-    })
-    .then(data=>{
-      var catarr = [];
-      console.log(data)
-      console.log(item)
-
-      data.forEach(category => {
-        catarr.push(category)
-        if(category.name == item.category){
-          setCurrentCat(category[0])
-          console.log(currentCat)
-        }
-        
-      });
-      setCategorys(catarr)
-    })
-    
-    
   }, []);
+  useEffect(() => {
+    fetch(("https://localhost:5001/categories/"),{
+    })
+        .then((data) => data.json())
+        .then((data) => setCategories(data))
+    }, []);
+  
+  const SelectCategory = (e) => {
+    e.preventDefault();
+    var categorydropdown = document.getElementsByName('selectCategories')[0]
+    var categoryid;
+
+    console.log(categorydropdown.value);
+    for (let index = 0; index < categories.length; index++) {
+      if (categories[index].name == categorydropdown.value) {
+          categoryid = categories[index].id
+      }
+    }
+    console.log(categoryid)
+    fetch(`https://localhost:5001/updateCategoryOfProduct?productid=${productId}&categoryid=${categoryid}`,{
+    method: 'PUT'
+  })
+  .then((res) =>{
+    console.log("Changed category")
+    window.location.reload()
+  })
+}
+const SelectType = (e) => {
+    e.preventDefault();
+    var typesdropdown = document.getElementsByName('selectTypes')[0]
+    var categorydropdown = document.getElementsByName('selectCategories')[0]
+    var categoryid;
+
+    console.log(categorydropdown.value);
+    for (let index = 0; index < categories.length; index++) {
+      if (categories[index].name == categorydropdown.value) {
+          categoryid = categories[index].id
+      }
+    }
+    console.log(categoryid)
+    console.log(typesdropdown.value);
+    fetch(`https://localhost:5001/updateTypeOfProduct?productid=${[item.id]}&categoryid=${[categoryid]}&type=${[typesdropdown.value]}`,{
+    method: 'PUT'
+    })
+  .then((res) =>{
+    console.log("Changed type")
+    window.location.reload()
+  })
+}
   // console.log(item)
-  if (item !== undefined){
+  if (item !== undefined && categories !== undefined){
     return (
       <div>
         <div>
@@ -59,24 +84,43 @@ export default function EditProduct() {
               <div>
                 <label>Category</label>
                 <br />
-                <select id='category-field' defaultValue={currentCat} onChange={(e) => UpdateTypeField(setTypes,e.target.value)}  >
-                  { categorys !== undefined &&
-                    categorys.map((item) => 
-                      <option value={item.id} key={item.id}>{item.name}</option>
-                    )
-                  }
+                <select name="selectCategories" value={item.category} onChange={ e => SelectCategory(e)}>
+                        {categories.map((category) => (
+                        <option value={category.name}>{category.name}</option>
+                        ))}
                 </select>
               </div>
               <div>
                 <label>Type</label>
                 <br />
-                <select DefaultValue={item.type} onChange={(e) => updateTypeOfProduct(item, e.target.value)}>
-                  { types !== undefined &&
-                      types.map((opt) =>
-                        <option value={opt.name} key={opt.id}>{opt.name}</option>
-                      )
+                {
+                  (true) ?
+                  <select name="selectTypes" value={item.type} onChange={ e => SelectType(e)}>
+                      {categories.map((category) => (
+
+                        (item.category === category.name) ?
+                        
+                          category.types.map((type,index) => 
+                          <option value={type.name} key={index}>{type.name}</option>
+                          )
+                        :null
+                        ))}
+                  </select>
+                  : <div>
+                      <h3>no types found</h3>
+                      </div>
                   }
-                </select>
+
+                    {/* (currentcategory !== undefined && currentcategory.types !== undefined) ?
+                    <select name="selectTypes" onChange={ e => SelectType(e)}>
+                        {currentcategory.types.map((type,index) => 
+                        <option value={type.name} key={index}>{type.name}</option>
+                        )}
+                    </select>
+                    : <div>
+                        <h3>no types found</h3>
+                        </div>
+                    } */}
               </div>
               <div>
                 <br />
@@ -149,42 +193,4 @@ function updateProduct(e,main,arr,jsonobj){
     body: JSON.stringify(jsonobj)
   })
 
-}
-
-function UpdateTypeField(setTypes,e){
-   fetch(`https://localhost:5001/getcategorybyid?id=${e}`)
-    .then((res) =>{
-      return res.json()
-    })
-    .then((data) =>{
-      var total = []
-      data.types.forEach(element => {
-        total.push(element)
-      });
-      setTypes(total)
-    })
-}
-
-function updateTypeOfProduct(product, type){
-  var e = document.getElementById('category-field')
-  var categoryid = e.value
-  if (product.type == type) {
-    return null;
-  }
-
-  fetch(`https://localhost:5001/updateCategoryOfProduct?productid=${product.id}&categoryid=${categoryid}`,{
-    method: 'PUT'
-  })
-  .then((res) =>{
-    console.log("Changed category")
-  })
-  
-    
-  fetch(`https://localhost:5001/updateTypeOfProduct?productid=${[product.id]}&categoryid=${[categoryid]}&type=${[type]}`,{
-    method: 'PUT'
-  })
-  .then((res) =>{
-    console.log("Changed type")
-    // window.location.reload()
-  })
 }

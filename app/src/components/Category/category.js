@@ -5,7 +5,7 @@ const UpdateCategory = (e,category) => {
     e.preventDefault();
     
     var id = category.id
-    var name = category.name
+    var name = document.getElementsByName('categoryname')[0].value
     var jsonobj = {
         "id": id,
         "name": name,
@@ -120,42 +120,13 @@ const RemoveInfoFromType = (e,categoryid,type,info) => {
 export default function Category(){
     const { id } = useParams();
     const [category, setCategory] = useState(); 
-    const [changedcategory, setChangedCategory] = useState(); 
     
     useEffect(() => {
         fetch('https://localhost:5001/getcategorybyid?id='+id)
          .then((response) => response.json())
          .then(response=>setCategory(response))
     }, [id]);
-    useEffect(() => {
-        setChangedCategory(category)
-    })
     
-    const onChangeName = (e) => {
-        e.preventDefault();
-        var categorynameinput = document.getElementsByName('categoryname')[0]
-    
-        var changes = changedcategory;
-        changes.name = categorynameinput.value;
-        setChangedCategory(changes);
-        console.log(changedcategory)
-    }
-    const onChangeAttributeName = (e,index) => {
-        e.preventDefault();
-
-        //Type should be current value of text box 
-        //Get element with modules and take the displayed value
-
-        var changes = changedcategory;
-        var attributenameinput = document.getElementsByName('types')[0]
-
-        changes.types[index].name = attributenameinput.value;
-        setChangedCategory(changes);
-        // console.log(changedcategory)
-        // console.log(index)
-        // console.log(attributenameinput.value)
-        // console.log(changes.types[index].name)
-    }
     return(
         <div>
             {(category !== undefined) ? 
@@ -164,7 +135,7 @@ export default function Category(){
                   <form>
                     <div>
                       <label>Name: </label>
-                      <input name="categoryname" defaultValue={category.name} onChange={ e => onChangeName(e)} type="text" />
+                      <input name="categoryname" defaultValue={category.name} type="text" />
                     </div>
                     <div>
                       <br />
@@ -180,7 +151,7 @@ export default function Category(){
                         <div id="type-field" key={index} name="types" style={{border:'1px solid black', marginTop:'8px'}}>
                             <input type="submit" value="Remove Type" onClick={ e => RemoveType(e,category.id,type.name)}/>
                             <label>Name: </label>
-                            <input defaultValue={type.name} type="text" onChange={ e => onChangeAttributeName(e,index)} id="currenttype" key={index}/>
+                            <input defaultValue={type.name} type="text" id="currenttype" key={index}/>
                             {(type.info !== null) ?
                             type.info.map((info, idx) =>
                                 <div key={idx}>
