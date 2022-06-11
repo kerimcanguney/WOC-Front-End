@@ -57,6 +57,16 @@ const UpdateCategory = (e,category) => {
     })
     // window.location.reload(true);
 }
+const DeleteCategory = (e,categoryid) => {
+    e.preventDefault();
+    let fetchUrl = 'https://localhost:5001/deletecategory?id='+categoryid;
+    console.log(fetchUrl);
+    fetch(fetchUrl,{
+        method: 'DELETE'
+    });
+    console.log("test delete type");
+    window.location.href = '/categories';
+}
 const AddType = (e,categoryid,type) => {
     e.preventDefault();
     let fetchUrl = 'https://localhost:5001/addtypetocategory?categoryid='+categoryid+'&type='+type;
@@ -146,7 +156,7 @@ export default function Category(){
                             <br />
                             <br />
                         </div>
-                      {(category.types !== undefined) ?
+                      {(category.types !== undefined && category.types !== null) ?
                       category.types.map((type, index) =>
                         <div id="type-field" key={index} name="types" style={{border:'1px solid black', marginTop:'8px'}}>
                             <input type="submit" value="Remove Type" onClick={ e => RemoveType(e,category.id,type.name)}/>
@@ -178,7 +188,10 @@ export default function Category(){
                       <input name="newtypename" type="text" id="newtypename"/>
                       <input type="submit" value="New Type" onClick={ e => AddType(e,category.id,document.getElementById("newtypename").value)}/>
                     </div>
-                    
+                    <br />
+                    <input type="submit" value="Delete" onClick={ e => DeleteCategory(e,id)}/>
+                    <br />
+                    <br />
                     <br />
                     <input type="submit" value="Save" onClick={ e => UpdateCategory(e,category)}/>
                   </form>
