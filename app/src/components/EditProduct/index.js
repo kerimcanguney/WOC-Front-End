@@ -5,6 +5,16 @@ import { useParams } from 'react-router-dom'
 import './style.css'
 // react hook dynamisch generaten in map
 // [title,2,3,4]
+const DeleteProduct = (e,productid) => {
+  e.preventDefault();
+  let fetchUrl = 'https://localhost:5001/product?id='+productid;
+  console.log(fetchUrl);
+  fetch(fetchUrl,{
+      method: 'DELETE'
+  });
+  console.log("test delete product");
+  window.location.href = '/';
+}
 export default function EditProduct() {
   const { productId } = useParams();
   const [categories, setCategories] = useState([])  
@@ -134,6 +144,10 @@ const SelectType = (e) => {
                   )}
                 </div>
               </div>
+              <br />
+                    <input type="submit" value="Delete" onClick={ e => DeleteProduct(e,productId)}/>
+              <br />
+              <br />
 
               <input type="submit" onClick={(e)=>  updateProduct(e,getNodesMain(e),getNodes(e), item)} value="Save" />
             </form>
