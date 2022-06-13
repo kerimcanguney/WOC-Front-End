@@ -98,7 +98,7 @@ if (categories !== undefined || categories !== null){
           </select></>
         :
         <label>No types found</label>}
-        <input type="submit" value="New category" onClick={e => NewProduct(e, document.getElementById("newproduct").value)} />
+        <input type="submit" value="New Product" onClick={e => NewProduct(e, document.getElementById("newproduct").value)} />
     </div></>
   )
 }
