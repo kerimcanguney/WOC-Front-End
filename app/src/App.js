@@ -10,8 +10,8 @@ import Login from './components/LoginForm/login';
 import useToken from './useToken';
 import './app.css'
 import Home from './pages/home' 
-import Categories from './components/Category/categories'
-import Category from './components/Category/category'
+import Categories from './pages/categories'
+import Category from './pages/category'
 
 function App() {
   const {token, setToken}= useToken();

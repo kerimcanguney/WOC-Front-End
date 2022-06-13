@@ -3,18 +3,69 @@ import { useParams } from 'react-router-dom';
 
 const UpdateCategory = (e,category) => {
     e.preventDefault();
-    /*
-    let fetchUrl = 'https://localhost:5001/Novel/;
+    
+    var id = category.id
+    var name = document.getElementsByName('categoryname')[0].value
+    var jsonobj = {
+        "id": id,
+        "name": name,
+        "types": [
+          
+        ]
+    }
+
+    // console.log(jsonobj)
+    var typefield = document.getElementsByName('types')
+    typefield.forEach(field => {
+        var typejsonobj = {
+            name: "",
+            info: []
+        }
+        field.childNodes.forEach(child =>{
+            
+            if (child.id == "currenttype") 
+            {
+                typejsonobj.name = child.value
+            }
+            
+            if (child.childNodes.length > 1){
+                var div = child.childNodes
+                console.log(div[2].value)
+                typejsonobj.info.push(
+                    {
+                        name: div[2].value,
+                        value: ""
+                    }
+                )
+            }
+            
+        })
+        jsonobj.types.push(typejsonobj)
+
+    });
+    console.log(jsonobj)
+    console.log('finished')
+
+    let fetchUrl = `https://localhost:5001/updateCategory?id=${id}`;
+
+    fetch(fetchUrl,{
+        method: 'PUT',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonobj)
+    })
+    // window.location.reload(true);
+}
+const DeleteCategory = (e,categoryid) => {
+    e.preventDefault();
+    let fetchUrl = 'https://localhost:5001/deletecategory?id='+categoryid;
     console.log(fetchUrl);
     fetch(fetchUrl,{
-        method: 'POST',
-        credentials: 'include',
-        headers:{   
-            'accept': 'text/plain'
-        }
-    });*/
-    console.log("test");
-    window.location.reload(true);
+        method: 'DELETE'
+    });
+    console.log("test delete type");
+    window.location.href = '/categories';
 }
 const AddType = (e,categoryid,type) => {
     e.preventDefault();
@@ -85,9 +136,7 @@ export default function Category(){
          .then((response) => response.json())
          .then(response=>setCategory(response))
     }, [id]);
-    console.log(category)
     
-
     return(
         <div>
             {(category !== undefined) ? 
@@ -96,7 +145,7 @@ export default function Category(){
                   <form>
                     <div>
                       <label>Name: </label>
-                      <input defaultValue={category.name} type="text" />
+                      <input name="categoryname" defaultValue={category.name} type="text" />
                     </div>
                     <div>
                       <br />
@@ -107,9 +156,9 @@ export default function Category(){
                             <br />
                             <br />
                         </div>
-                      {(category.types !== undefined) ?
+                      {(category.types !== undefined && category.types !== null) ?
                       category.types.map((type, index) =>
-                        <div key={index}>
+                        <div id="type-field" key={index} name="types" style={{border:'1px solid black', marginTop:'8px'}}>
                             <input type="submit" value="Remove Type" onClick={ e => RemoveType(e,category.id,type.name)}/>
                             <label>Name: </label>
                             <input defaultValue={type.name} type="text" id="currenttype" key={index}/>
@@ -139,7 +188,10 @@ export default function Category(){
                       <input name="newtypename" type="text" id="newtypename"/>
                       <input type="submit" value="New Type" onClick={ e => AddType(e,category.id,document.getElementById("newtypename").value)}/>
                     </div>
-                    
+                    <br />
+                    <input type="submit" value="Delete" onClick={ e => DeleteCategory(e,id)}/>
+                    <br />
+                    <br />
                     <br />
                     <input type="submit" value="Save" onClick={ e => UpdateCategory(e,category)}/>
                   </form>

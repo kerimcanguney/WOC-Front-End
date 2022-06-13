@@ -1,9 +1,9 @@
-table, td, th {  
+#category-table, td, th {  
     border: 1px solid #ddd;
     text-align: left;
   }
   
-  table {
+  #category-table {
     border-collapse: collapse;
     width: 100%;
     align-self:center
@@ -12,7 +12,7 @@ table, td, th {
   th, td {
     padding: 15px;
   }
-table {
+  #category-table {
     display: grid;
     border-collapse: collapse;
     min-width: 100%;
@@ -22,6 +22,9 @@ table {
       minmax(150px, 1fr) /**/
       minmax(150px, 1fr) /**/
 }
+
+
+
 .block {
     display: block;
     width: 100%;
@@ -37,3 +40,4 @@ table {
     background-color: #ddd;
     color: black;
   }
+

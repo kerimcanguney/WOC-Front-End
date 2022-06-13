@@ -5,10 +5,19 @@ import { useParams } from 'react-router-dom'
 import './style.css'
 // react hook dynamisch generaten in map
 // [title,2,3,4]
+const DeleteProduct = (e,productid) => {
+  e.preventDefault();
+  let fetchUrl = 'https://localhost:5001/product?id='+productid;
+  console.log(fetchUrl);
+  fetch(fetchUrl,{
+      method: 'DELETE'
+  });
+  console.log("test delete product");
+  window.location.href = '/';
+}
 export default function EditProduct() {
   const { productId } = useParams();
-  const [categorys, setCategorys] = useState();
-  const [types, setTypes] = useState();
+  const [categories, setCategories] = useState([])  
   const [item, setItems] = useState();
   useEffect(() => {
     fetch(`https://localhost:5001/getbyid?id=${productId}`)
@@ -17,28 +26,60 @@ export default function EditProduct() {
     })
     .then(data=>{
       setItems(data);
-    })
-
-    fetch("https://localhost:5001/categories")
-    .then(res =>{
-      return res.json();
-    })
-    .then(data=>{
-      var catarr = [];
-      var typearr = [];
-      data.forEach(category => {
-        catarr.push(category.name)
-        category.types.forEach(type =>{
-          typearr.push(type.name)
-        })
-      });
-      setTypes(typearr)
-      setCategorys(catarr)
+      // UpdateTypeField(setTypes,data.category)
     })
   }, []);
-
+  useEffect(() => {
+    fetch(("https://localhost:5001/categories/"),{
+    })
+        .then((data) => data.json())
+        .then((data) => setCategories(data))
+    }, []);
   
-  if (item !== undefined){
+  const SelectCategory = (e) => {
+    e.preventDefault();
+    var categorydropdown = document.getElementsByName('selectCategories')[0]
+    var categoryid;
+
+    console.log(categorydropdown.value);
+    for (let index = 0; index < categories.length; index++) {
+      if (categories[index].name == categorydropdown.value) {
+          categoryid = categories[index].id
+      }
+    }
+    console.log(categoryid)
+    fetch(`https://localhost:5001/updateCategoryOfProduct?productid=${productId}&categoryid=${categoryid}`,{
+    method: 'PUT'
+  })
+  .then((res) =>{
+    console.log("Changed category")
+    window.location.reload()
+  })
+}
+const SelectType = (e) => {
+    e.preventDefault();
+    var typesdropdown = document.getElementsByName('selectTypes')[0]
+    var categorydropdown = document.getElementsByName('selectCategories')[0]
+    var categoryid;
+
+    console.log(categorydropdown.value);
+    for (let index = 0; index < categories.length; index++) {
+      if (categories[index].name == categorydropdown.value) {
+          categoryid = categories[index].id
+      }
+    }
+    console.log(categoryid)
+    console.log(typesdropdown.value);
+    fetch(`https://localhost:5001/updateTypeOfProduct?productid=${[item.id]}&categoryid=${[categoryid]}&type=${[typesdropdown.value]}`,{
+    method: 'PUT'
+    })
+  .then((res) =>{
+    console.log("Changed type")
+    window.location.reload()
+  })
+}
+  // console.log(item)
+  if (item !== undefined && categories !== undefined){
     return (
       <div>
         <div>
@@ -53,19 +94,43 @@ export default function EditProduct() {
               <div>
                 <label>Category</label>
                 <br />
-                <input defaultValue={item.category} type="text" />
-                <select>
-                  { categorys !== undefined &&
-                    categorys.map((item) => 
-                      <option key={item}>{item}</option>
-                    )
-                  }
+                <select name="selectCategories" value={item.category} onChange={ e => SelectCategory(e)}>
+                        {categories.map((category) => (
+                        <option value={category.name}>{category.name}</option>
+                        ))}
                 </select>
               </div>
               <div>
                 <label>Type</label>
                 <br />
-                <input defaultValue={item.type} type="text" />
+                {
+                  (true) ?
+                  <select name="selectTypes" value={item.type} onChange={ e => SelectType(e)}>
+                      {categories.map((category) => (
+
+                        (item.category === category.name) ?
+                        
+                          category.types.map((type,index) => 
+                          <option value={type.name} key={index}>{type.name}</option>
+                          )
+                        :null
+                        ))}
+                  </select>
+                  : <div>
+                      <h3>no types found</h3>
+                      </div>
+                  }
+
+                    {/* (currentcategory !== undefined && currentcategory.types !== undefined) ?
+                    <select name="selectTypes" onChange={ e => SelectType(e)}>
+                        {currentcategory.types.map((type,index) => 
+                        <option value={type.name} key={index}>{type.name}</option>
+                        )}
+                    </select>
+                    : <div>
+                        <h3>no types found</h3>
+                        </div>
+                    } */}
               </div>
               <div>
                 <br />
@@ -79,9 +144,12 @@ export default function EditProduct() {
                   )}
                 </div>
               </div>
+              <br />
+                    <input type="submit" value="Delete" onClick={ e => DeleteProduct(e,productId)}/>
+              <br />
+              <br />
 
               <input type="submit" onClick={(e)=>  updateProduct(e,getNodesMain(e),getNodes(e), item)} value="Save" />
-              <button onClick={(e)=>  getNodesMain()}>a</button>
             </form>
           </div>
         </div>
